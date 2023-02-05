@@ -1,5 +1,5 @@
-import { SendOption, SendResult } from './response'
+import { SendOption, SendResult } from '@/utils'
 
 export interface IPusher {
-    send(sendOption: SendOption): Promise<SendResult>
+    send(sendOptions: SendOption): Promise<SendResult>
 }

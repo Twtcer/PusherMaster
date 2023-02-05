@@ -40,8 +40,8 @@ class PushPlus implements IPusher {
         }
     }
 
-    async send(sendOption: SendOption): Promise<SendResult> {
-        if (!sendOption.message && !sendOption.customOptions) {
+    async send(sendOptions: SendOption): Promise<SendResult> {
+        if (!sendOptions.message && !sendOptions.customOptions) {
             return {
                 code: 0,
                 message: 'Missing parameter: message',
@@ -49,25 +49,25 @@ class PushPlus implements IPusher {
             }
         }
         let pushplusOptions: PushPlusOptions
-        if (sendOption.customOptions) {
-            pushplusOptions = sendOption.customOptions
+        if (sendOptions.customOptions) {
+            pushplusOptions = sendOptions.customOptions
         } else {
             pushplusOptions = {
-                content: sendOption.message,
+                content: sendOptions.message,
             }
-            if (sendOption.title) {
-                pushplusOptions.title = sendOption.title
+            if (sendOptions.title) {
+                pushplusOptions.title = sendOptions.title
 
             }
-            if (['html', 'markdown'].includes(sendOption.type || '')) {
-                pushplusOptions.template = sendOption.type
+            if (['html', 'markdown'].includes(sendOptions.type || '')) {
+                pushplusOptions.template = sendOptions.type
             }
         }
         pushplusOptions.token = this._KEY
-        if (sendOption.extendOptions) {
+        if (sendOptions.extendOptions) {
             pushplusOptions = {
                 ...pushplusOptions,
-                ...sendOption.extendOptions,
+                ...sendOptions.extendOptions,
             }
         }
 

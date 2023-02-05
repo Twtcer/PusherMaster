@@ -1,10 +1,11 @@
-import { PushPlus } from './pushers/PushPlus/index'
 import { PusherType } from './interfaces/PusherType'
 import { SendOption, SendResult } from './utils'
+import { PushPlus } from './pushers/PushPlus'
+import { Bark } from './pushers/Bark'
 
 interface Pusher {
     name: string
-    pusher: PushPlus
+    pusher: PushPlus | Bark
 }
 
 interface PushMasterConfig {
@@ -20,10 +21,13 @@ class PusherMaster {
     pushers: Array<Pusher> = []
 
     constructor(pushMasterConfig: Array<PushMasterConfig>) {
-        pushMasterConfig.forEach((config) => {
-            switch (config.name) {
+        pushMasterConfig.forEach((conf) => {
+            switch (conf.name) {
                 case 'pushplus':
-                    this.pushers.push({ name: config.name, pusher: new PushPlus(config.config) })
+                    this.pushers.push({ name: conf.name, pusher: new PushPlus(conf.config) })
+                    break
+                case 'bark':
+                    this.pushers.push({ name: conf.name, pusher: new Bark(conf.config) })
                     break
 
                 default:
